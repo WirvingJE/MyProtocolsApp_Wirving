@@ -28,5 +28,13 @@ namespace MyProtocolsApp_Wirving.Views
                 TxtPassword.IsPassword = true;
             }
         }
+
+        private async void BtnLogin_Clicked(object sender, EventArgs e)
+        {
+
+            await Navigation.PushAsync(new StartPage());
+
+
+        }
     }
 }
