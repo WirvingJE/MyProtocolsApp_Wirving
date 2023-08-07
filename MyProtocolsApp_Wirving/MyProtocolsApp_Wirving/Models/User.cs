@@ -11,13 +11,10 @@ namespace MyProtocolsApp_Wirving.Models
     
         public class User
         {
-            //es mala idea tener un solo objeto de comunicación RestRequest contra el API
-            //recomiendo tener uno por cada clase se comunique con el API. 
+            
             public RestRequest Request { get; set; }
 
-            //en este ejemplo usaré los mismos atributos que en el modelo del API
-            //posteriormente en otra clase usaré el DTO del usuario para simplificar
-            //el json que se envía y recibe desde el API. 
+            //en es
 
             public int UserId { get; set; }
             public string Email { get; set; } = null!;
@@ -37,17 +34,12 @@ namespace MyProtocolsApp_Wirving.Models
 
             }
 
-            //Funciones especificas de llamada a end points del API 
-
-            //función que permite validar que los datos digitados en la pagina de 
-            //applogin sean correctos o no. 
+          
             public async Task<bool> ValidateUserLogin()
             {
                 try
                 {
-                    //usaremos el prefijo de la ruta URL del API que se indica en 
-                    //services\APIConnection para agregar el sufijo y lograr la ruta 
-                    //completa de consumo del end point que se quiere usar. 
+                     
 
                     string RouteSufix = string.Format("Users/ValidateLogin?username={0}&password={1}",
                                                                            this.Email, this.Password);
