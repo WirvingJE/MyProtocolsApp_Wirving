@@ -22,14 +22,45 @@ namespace MyProtocolsApp_Wirving.ViewModels
 
         public UserRole MyUserRole { get; set; }
 
+        public UserDTO MyUserDTO { get; set; }
 
         public UserViewModel()
         {
             MyUser = new User();
             MyUserRole = new UserRole();
+            MyUserDTO = new UserDTO();
         }
 
         //funciones 
+
+        //funcion que carga los datos del objeto de usuario global 
+        public async Task<UserDTO> GetUserDataAsync(string pEmail)
+        {
+            if (IsBusy) return null;
+            IsBusy = true;
+
+            try
+            {
+                UserDTO userDTO = new UserDTO();
+
+                userDTO = await MyUserDTO.GetUserInfo(pEmail);
+
+                if (userDTO == null) return null;
+
+                return userDTO;
+
+            }
+            catch (Exception)
+            {
+                return null;
+                throw;
+            }
+            finally { IsBusy = false; }
+
+
+        }
+
+
 
         //función para validar el ingreso del usuario al app por medio del 
         //login 
@@ -49,7 +80,7 @@ namespace MyProtocolsApp_Wirving.ViewModels
             try
             {
                 MyUser.Email = pEmail;
-                MyUser.Password = pPassword;
+                MyUser.LoginPassword = pPassword;
 
                 bool R = await MyUser.ValidateUserLogin();
 
@@ -111,7 +142,7 @@ namespace MyProtocolsApp_Wirving.ViewModels
                 // MyUser = new User();
 
                 MyUser.Email = pEmail;
-                MyUser.Password = pPassword;
+                MyUser.LoginPassword = pPassword;
                 MyUser.Name = pName;
                 MyUser.BackUpEmail = pBackUpEmail;
                 MyUser.PhoneNumber = pPhoneNumber;

@@ -12,9 +12,21 @@ namespace MyProtocolsApp_Wirving.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StartPage : ContentPage
     {
-        public StartPage()
+        public StartPage ()
         {
             InitializeComponent();
+
+            LoadUserName();
         }
+        private void LoadUserName()
+		{
+
+           
+                LblUserName.Text = GlobalObjects.MyLocalUser.Nombre.ToUpper();
+            
+
+        }
+       
+
     }
 }

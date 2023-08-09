@@ -67,6 +67,8 @@ namespace MyProtocolsApp_Wirving.Views
 
                         //TODO: crear el objeto de usuario global 
 
+                        GlobalObjects.MyLocalUser = await viewModel.GetUserDataAsync(TxtUserName.Text.Trim());
+
                         await Navigation.PushAsync(new StartPage());
                         return;
                     }

@@ -13,30 +13,33 @@ namespace MyProtocolsApp_Wirving.Models
     {
         //es mala idea tener un solo objeto de comunicación RestRequest contra el API
         //recomiendo tener uno por cada clase se comunique con el API. 
+        [JsonIgnore]
         public RestRequest Request { get; set; }
 
         //en este ejemplo usaré los mismos atributos que en el modelo del API
         //posteriormente en otra clase usaré el DTO del usuario para simplificar
         //el json que se envía y recibe desde el API. 
 
+        public User()
+        {
+            Active = true;
+            IsBlocked = false;
+        }
+
         public int UserId { get; set; }
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public string BackUpEmail { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
-        public string? Address { get; set; }
+        public string Email { get; set; }
+        public string LoginPassword { get; set; }
+        public string Name { get; set; }
+        public string BackUpEmail { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
         public bool? Active { get; set; }
         public bool? IsBlocked { get; set; }
         public int UserRoleId { get; set; }
 
         //public virtual UserRole? UserRole { get; set; } = null!;
 
-        public User()
-        {
-            Active = true;
-            IsBlocked = false;
-        }
+
 
         //Funciones especificas de llamada a end points del API 
 
@@ -51,7 +54,7 @@ namespace MyProtocolsApp_Wirving.Models
                 //completa de consumo del end point que se quiere usar. 
 
                 string RouteSufix = string.Format("Users/ValidateLogin?username={0}&password={1}",
-                                                                       this.Email, this.Password);
+                                                                       this.Email, this.LoginPassword);
                 //armamos la ruta completa al endpoint en el API 
                 string URL = Services.APIConnection.ProductionPrefixURL + RouteSufix;
 
@@ -101,11 +104,14 @@ namespace MyProtocolsApp_Wirving.Models
                 //agregamos mecanismo de seguridad, en este caso API key
                 Request.AddHeader(Services.APIConnection.ApiKeyName, Services.APIConnection.ApiKeyValue);
 
+                Request.AddHeader(GlobalObjects.ContentType, GlobalObjects.MimeType);
+
                 //en el caso de una operación POST debemos serializar el objeto para pasarlo como 
-                //json al API 
-                string SerializedModelObject = JsonConvert.SerializeObject(this);
+                //json al API
+
+                string SerializedModel = JsonConvert.SerializeObject(this);
                 //agregamos el objeto serializado el el cuuerpo del request. 
-                Request.AddBody(SerializedModelObject, GlobalObjects.MimeType);
+                Request.AddBody(SerializedModel, GlobalObjects.MimeType);
 
                 //ejecutar la llamada al API 
                 RestResponse response = await client.ExecuteAsync(Request);
@@ -130,6 +136,10 @@ namespace MyProtocolsApp_Wirving.Models
             }
 
         }
+
+
+
+
 
 
 
