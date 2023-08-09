@@ -12,11 +12,11 @@ using Acr.UserDialogs;
 
 namespace MyProtocolsApp_Wirving.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AppLoginPage : ContentPage
-	{
-
-
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AppLoginPage : ContentPage
+    {
+        //se realiza el anclaje entre esta vista y el VM que le da la 
+        //funcionalidad 
 
         UserViewModel viewModel;
 
@@ -24,7 +24,7 @@ namespace MyProtocolsApp_Wirving.Views
         {
             InitializeComponent();
 
-            
+            //esto vincula la v con el vm y además crea la instancia del obj 
             this.BindingContext = viewModel = new UserViewModel();
 
         }
@@ -62,7 +62,10 @@ namespace MyProtocolsApp_Wirving.Views
 
                     if (R)
                     {
-                       
+                        //si la validación es correcta se permite el ingreso al sistema 
+                        //igual que el progra 5 vamos a tener un usuario global 
+
+                        //TODO: crear el objeto de usuario global 
 
                         await Navigation.PushAsync(new StartPage());
                         return;
@@ -98,16 +101,11 @@ namespace MyProtocolsApp_Wirving.Views
                 return;
             }
 
-
-
-
-
-
         }
 
         private async void BtnSignUp_Clicked(object sender, EventArgs e)
         {
-           await Navigation.PushAsync(new UserSignUpPage());
+            await Navigation.PushAsync(new UserSignUpPage());
         }
     }
 }

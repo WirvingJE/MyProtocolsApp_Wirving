@@ -8,12 +8,25 @@ namespace MyProtocolsApp_Wirving.ViewModels
 {
     public class UserViewModel : BaseViewModel
     {
-        
+        //el VM funciona como puente entre el modelo y la vista 
+        //en sentido teórico el vm "siente" los cambios de la vista 
+        //y los pasa al modelo de forma automática, o viceversa
+        //según se use en uno o dos sentidos. 
+
+        //también se puede usar (como en este caso particular, 
+        //simplemente como mediador de procesos. Más adelante se usará 
+        //commands y bindings en dos sentidos 
+
+        //primero en formato de funciones clásicas
         public User MyUser { get; set; }
+
+        public UserRole MyUserRole { get; set; }
+
 
         public UserViewModel()
         {
             MyUser = new User();
+            MyUserRole = new UserRole();
         }
 
         //funciones 
@@ -23,7 +36,11 @@ namespace MyProtocolsApp_Wirving.ViewModels
 
         public async Task<bool> UserAccessValidation(string pEmail, string pPassword)
         {
-            
+            //debemos poder controlar que no se ejecute la operación más de una vez 
+            //en este caso hay una funcionalidad pensada para eso en BaseViewModel que 
+            //fue heredada al definir esta clase. 
+            //Se usará una propiedad llamada "IsBusy" para indicar que está en proceso de ejecución
+            //mientras su valor sea verdadero 
 
             //control de bloqueo de funcionalidad 
             if (IsBusy) return false;
@@ -51,6 +68,73 @@ namespace MyProtocolsApp_Wirving.ViewModels
                 IsBusy = false;
             }
         }
+
+        //carga la lista de roles, que se usaran por ejemplo en el picker de roles en la
+        //creación de un usuario nuevo
+        public async Task<List<UserRole>> GetUserRolesAsync()
+        {
+            try
+            {
+                List<UserRole> roles = new List<UserRole>();
+
+                roles = await MyUserRole.GetAllUserRolesAsync();
+
+                if (roles == null)
+                {
+                    return null;
+                }
+
+                return roles;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        //función de creación de usuario nuevo 
+        public async Task<bool> AddUserAsync(string pEmail,
+                                             string pPassword,
+                                             string pName,
+                                             string pBackUpEmail,
+                                             string pPhoneNumber,
+                                             string pAddress,
+                                             int pUserRoleID)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+
+            try
+            {
+                // MyUser = new User();
+
+                MyUser.Email = pEmail;
+                MyUser.Password = pPassword;
+                MyUser.Name = pName;
+                MyUser.BackUpEmail = pBackUpEmail;
+                MyUser.PhoneNumber = pPhoneNumber;
+                MyUser.Address = pAddress;
+                MyUser.UserRoleId = pUserRoleID;
+
+                bool R = await MyUser.AddUserAsync();
+
+                return R;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+            finally { IsBusy = false; }
+
+        }
+
+
+
 
 
     }
