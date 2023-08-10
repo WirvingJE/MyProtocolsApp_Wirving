@@ -37,7 +37,8 @@
                             x:Name="BtnUserManagment" Text="User Managment"
                             BackgroundColor="#5D5505" TextColor="White"
                             HeightRequest="150" WidthRequest="100"
-                            CornerRadius="25" BorderColor="#B6B4B4" BorderWidth="2"  />
+                            CornerRadius="25" BorderColor="#B6B4B4" BorderWidth="2"
+                            Clicked="BtnUserManagment_Clicked"/>
 
                     <Button Grid.Column="0" Grid.Row="1"
                             x:Name="BtnCategoryManagment" Text="Category Managment"
@@ -50,6 +51,7 @@
                             BackgroundColor="#47055D" TextColor="White"
                             HeightRequest="150" WidthRequest="100"
                             CornerRadius="25" BorderColor="#B6B4B4" BorderWidth="2"  />
+
 
                 </Grid>
 

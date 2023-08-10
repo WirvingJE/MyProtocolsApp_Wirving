@@ -13,7 +13,7 @@ namespace MyProtocolsApp_Wirving
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+           // DependencyService.Register<MockDataStore>();
             //definimos la forma de aplilar pagimas en la pantalla 
             MainPage = new NavigationPage(new AppLoginPage());
         }

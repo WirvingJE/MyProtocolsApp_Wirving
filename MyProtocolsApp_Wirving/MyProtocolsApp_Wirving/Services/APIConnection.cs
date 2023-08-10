@@ -9,8 +9,8 @@ namespace MyProtocolsApp_Wirving.Services
         //aca definimos la direcionURL (ya sea IP o nombre de dominio a la que el app debe apuntar
         // por comodidad la ruta completa 
 
-        public static string ProductionPrefixURL = "http://192.168.100.234:45455/api/";
-        public static string TestingPrefixURL = "http://192.168.100.234:45455/api/";
+        public static string ProductionPrefixURL = "http://192.168.1.192:45455/api/";
+        public static string TestingPrefixURL = "http://192.168.1.192:45455/api/";
 
 
         public static string ApiKeyName = "Progra6ApiKey";

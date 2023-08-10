@@ -63,5 +63,10 @@ namespace MyProtocolsApp_Wirving.Views
 
 
         }
+
+        private async void BtnCancel_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
     }
 } 

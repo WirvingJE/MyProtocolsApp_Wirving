@@ -13,9 +13,7 @@ namespace MyProtocolsApp_Wirving.ViewModels
         //y los pasa al modelo de forma automática, o viceversa
         //según se use en uno o dos sentidos. 
 
-        //también se puede usar (como en este caso particular, 
-        //simplemente como mediador de procesos. Más adelante se usará 
-        //commands y bindings en dos sentidos 
+        
 
         //primero en formato de funciones clásicas
         public User MyUser { get; set; }
@@ -61,26 +59,39 @@ namespace MyProtocolsApp_Wirving.ViewModels
         }
 
 
+        public async Task<bool> UpdateUser(UserDTO pUser)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
 
-        //función para validar el ingreso del usuario al app por medio del 
-        //login 
+            try
+            {
+                MyUserDTO = pUser;
+
+                bool R = await MyUserDTO.UpdateUserAsync();
+
+                return R;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+        }
+
 
         public async Task<bool> UserAccessValidation(string pEmail, string pPassword)
         {
-            //debemos poder controlar que no se ejecute la operación más de una vez 
-            //en este caso hay una funcionalidad pensada para eso en BaseViewModel que 
-            //fue heredada al definir esta clase. 
-            //Se usará una propiedad llamada "IsBusy" para indicar que está en proceso de ejecución
-            //mientras su valor sea verdadero 
-
-            //control de bloqueo de funcionalidad 
+            
             if (IsBusy) return false;
             IsBusy = true;
 
             try
             {
                 MyUser.Email = pEmail;
-                MyUser.LoginPassword = pPassword;
+                MyUser.Password = pPassword;
 
                 bool R = await MyUser.ValidateUserLogin();
 
@@ -100,8 +111,6 @@ namespace MyProtocolsApp_Wirving.ViewModels
             }
         }
 
-        //carga la lista de roles, que se usaran por ejemplo en el picker de roles en la
-        //creación de un usuario nuevo
         public async Task<List<UserRole>> GetUserRolesAsync()
         {
             try
@@ -142,7 +151,7 @@ namespace MyProtocolsApp_Wirving.ViewModels
                 // MyUser = new User();
 
                 MyUser.Email = pEmail;
-                MyUser.LoginPassword = pPassword;
+                MyUser.Password = pPassword;
                 MyUser.Name = pName;
                 MyUser.BackUpEmail = pBackUpEmail;
                 MyUser.PhoneNumber = pPhoneNumber;
@@ -163,6 +172,7 @@ namespace MyProtocolsApp_Wirving.ViewModels
             finally { IsBusy = false; }
 
         }
+
 
 
 
